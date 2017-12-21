@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mock import MagicMock, patch, mock_open, call
-
-import unittest
 import os
 import sys
+import unittest
+
+from mock import MagicMock, patch, mock_open, call
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from package.scripts.presto_worker import Worker
@@ -24,7 +25,6 @@ from package.scripts.params import memory_configs
 
 
 class TestWorker(unittest.TestCase):
-
     dummy_config_properties = {'pseudo.distributed.enabled': False,
                                'query.queue-config-file': '',
                                'http-server.http.port': '8285',
@@ -90,7 +90,7 @@ class TestWorker(unittest.TestCase):
 
     @patch('package.scripts.presto_worker.create_connectors')
     @patch('package.scripts.params.config_properties', new=dummy_config_properties)
-    def test_configure_ignore_pseudo_distribute_enabled_property(self, create_connectors_mock ):
+    def test_configure_ignore_pseudo_distribute_enabled_property(self, create_connectors_mock):
         config = collect_config_vars_written_out(self.mock_env, Worker())
 
         assert 'pseudo.distributed.enabled=true\n' not in config
@@ -128,6 +128,7 @@ def collect_config_vars_written_out(mock_env, obj_under_test):
         getattr(obj_under_test, 'configure')(mock_env)
 
     return config
+
 
 def mock_file_descriptor_write_method(list):
     def append(item_to_append):

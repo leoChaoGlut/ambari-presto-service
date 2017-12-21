@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
+import os
 import re
 import socket
-import os
-import json
 import sys
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from mock import MagicMock, patch, PropertyMock
@@ -26,8 +27,8 @@ from unittest import TestCase
 from package.scripts.presto_client import smoketest_presto, PrestoClient, \
     InvalidArgumentError, URL_TIMEOUT_MS
 
-class TestPrestoClientSmoketest(TestCase):
 
+class TestPrestoClientSmoketest(TestCase):
     nation = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
               15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 
@@ -64,10 +65,10 @@ class TestPrestoClientSmoketest(TestCase):
 
         TestCase.assertRaises(self, RuntimeError, smoketest_presto, self.presto_client_mock, ['master'])
 
+
 # These tests were copied more or less verbatim from
 # https://github.com/prestodb/presto-admin/blob/master/tests/unit/test_prestoclient.py
 class TestPrestoClient(TestCase):
-
     def test_no_sql(self):
         client = PrestoClient('any_host', 'any_user', 8080)
         self.assertRaisesRegexp(InvalidArgumentError,
@@ -129,7 +130,7 @@ class TestPrestoClient(TestCase):
     def test_http_answer_not_json(self, mock_response, mock_request):
         client = PrestoClient('any_host', 'any_user', 8080)
         mock_response.return_value.read.return_value = 'NOT JSON!'
-        type(mock_response.return_value).status =\
+        type(mock_response.return_value).status = \
             PropertyMock(return_value=200)
         self.assertRaisesRegexp(ValueError, 'No JSON object could be decoded',
                                 client.execute_query, 'any_sql')
@@ -183,7 +184,7 @@ class TestPrestoClient(TestCase):
                          False],
                         ["uuid1", "http://localhost:8080", "presto-main:0.97",
                          True],
-                        ["uuid2", "http://worker:8080",  "presto-main:0.97",
+                        ["uuid2", "http://worker:8080", "presto-main:0.97",
                          False]]
         self.assertEqual(client.get_rows(), expected_row)
 

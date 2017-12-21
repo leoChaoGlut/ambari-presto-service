@@ -12,22 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mock import MagicMock, patch, mock_open, call
-from unittest import TestCase
-
-import unittest
 import os
 import sys
+import unittest
+
+from mock import MagicMock, patch, mock_open, call
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from package.scripts.presto_coordinator import Coordinator
 from package.scripts.params import memory_configs
-from test_worker import mock_file_descriptor_write_method, \
-    collect_config_vars_written_out
+from test_worker import collect_config_vars_written_out
 
 
 class TestCoordinator(unittest.TestCase):
-
     dummy_config_properties = {'query.queue-config-file': '',
                                'http-server.http.port': '8285',
                                'node-scheduler.include-coordinator': 'true'}
@@ -93,7 +91,6 @@ class TestCoordinator(unittest.TestCase):
 
         assert call({}, "{'tpch': ['connector.name=tpch']}") in create_connectors_mock.call_args_list
 
-
     @patch('package.scripts.presto_coordinator.create_connectors')
     @patch('package.scripts.params.config_properties', new=dummy_config_properties)
     @patch('package.scripts.presto_coordinator.smoketest_presto')
@@ -138,6 +135,7 @@ class TestCoordinator(unittest.TestCase):
         config = collect_config_vars_written_out(self.mock_env, Coordinator())
 
         assert_memory_configs_properly_formatted(config)
+
 
 def assert_memory_configs_properly_formatted(configs_to_test):
     import re

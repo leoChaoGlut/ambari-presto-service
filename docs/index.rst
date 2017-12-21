@@ -18,9 +18,9 @@ Content
 -------
 
 .. toctree::
-   :maxdepth: 3
+:maxdepth: 3
 
-   getting-started
-   known-issues
-   getting-help
-   developers
+       getting-started
+       known-issues
+       getting-help
+       developers

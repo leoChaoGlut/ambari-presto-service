@@ -11,10 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from unittest import TestCase
-from mock import patch, call
-import sys
 import os
+import sys
+from unittest import TestCase
+
+from mock import patch, call
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from test_worker import mock_file_descriptor_write_method
@@ -32,7 +34,6 @@ class TestCommonCode(TestCase):
 
         assert not connector_properties_written_out
 
-
         connector_properties_written_out = collect_connector_properties_written_out(
             create_connectors, self.node_properties, '{}')
 
@@ -41,7 +42,7 @@ class TestCommonCode(TestCase):
     @patch('package.scripts.common.Execute')
     def test_add_connector(self, unused_execute_mock):
         from package.scripts.common import create_connectors
-        
+
         connector_properties = "{'hive': ['key1=value1', 'key2=value2']}"
 
         connector_properties_written_out = collect_connector_properties_written_out(
@@ -69,6 +70,7 @@ class TestCommonCode(TestCase):
 
         assert execute_mock.call_args_list == [call('rm -f /does/not/exist/connector1.properties'),
                                                call('rm -f /does/not/exist/connector2.properties')]
+
 
 def collect_connector_properties_written_out(
         create_connectors_method, node_properties, connectors_properties):

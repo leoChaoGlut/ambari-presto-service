@@ -12,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mock import MagicMock, patch
-
-from unittest import TestCase
 import os
 import sys
+from unittest import TestCase
+
+from mock import MagicMock, patch
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from package.scripts.presto_cli import Cli
 
-class TestCli(TestCase):
 
+class TestCli(TestCase):
     def setUp(self):
         self.presto_cli = Cli()
         self.mock_env = MagicMock()

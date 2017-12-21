@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from resource_management.libraries.script.script import Script
-from resource_management.core.resources.system import Execute
-from resource_management.core.exceptions import ClientComponentHasNoStatus
 from common import PRESTO_CLI_URL
+from resource_management.core.exceptions import ClientComponentHasNoStatus
+from resource_management.core.resources.system import Execute
+from resource_management.libraries.script.script import Script
 
 
 class Cli(Script):
@@ -38,6 +38,7 @@ class Cli(Script):
     def stop(self, env):
         import params
         env.set_params(params)
+
 
 if __name__ == '__main__':
     Cli().execute()

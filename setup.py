@@ -30,7 +30,6 @@ test_requirements = [
     'mock==1.0.1',
 ]
 
-
 setup(
     name='ambari-presto',
     version='1.2',
