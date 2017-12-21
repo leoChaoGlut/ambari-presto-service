@@ -27,7 +27,7 @@ class Coordinator(Script):
     def install(self, env):
         from params import java_home
         Execute('wget --no-check-certificate {0}  -O /tmp/{1}'.format(PRESTO_RPM_URL, PRESTO_RPM_NAME))
-        Execute('export JAVA8_HOME={0} && rpm -i /tmp/{1}'.format(java_home, PRESTO_RPM_NAME))
+        Execute('export JAVA8_HOME={0} && alien -d /tmp/{1}'.format(java_home, PRESTO_RPM_NAME))
         self.configure(env)
 
     def stop(self, env):
