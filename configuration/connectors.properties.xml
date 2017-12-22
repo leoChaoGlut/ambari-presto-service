@@ -18,14 +18,7 @@
 <configuration>
     <property>
         <name>connectors.to.add</name>
-        <value>
-            {
-              'hive': [
-                'connector.name=hive-hadoop2',
-                'hive.metastore.uri=thrift://localhost:9083'
-              ]
-            }
-        </value>
+        <value>{"hive": ["connector.name=hive-hadoop2","hive.metastore.uri=thrift://fp-bd5:9083"]}</value>
         <description>
             Modify this property to add connectors. The format should be {'connector1':
             ['key1=value1', 'key2=value2'..], 'connector2' :['key1=value1',

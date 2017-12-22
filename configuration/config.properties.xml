@@ -43,7 +43,7 @@
 
     <property>
         <name>http-server.http.port</name>
-        <value>8285</value>
+        <value>10301</value>
         <description>
             Specifies the port for the HTTP server. Presto uses HTTP for all
             communication, internal and external
@@ -90,7 +90,7 @@
 
     <property require-input="true">
         <name>discovery.uri</name>
-        <value></value>
+        <value>http://fp-bd5:10301</value>
         <description>
             The URI to the Discovery server. Because we have enabled the embedded
             version of Discovery in the Presto coordinator, this should be the URI of

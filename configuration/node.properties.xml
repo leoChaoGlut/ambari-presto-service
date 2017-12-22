@@ -18,7 +18,7 @@
 <configuration>
     <property>
         <name>node.environment</name>
-        <value>production</value>
+        <value>test</value>
         <description>
             The name of the environment. All Presto nodes in a cluster must have the
             same environment name.
@@ -27,7 +27,7 @@
 
     <property>
         <name>node.data-dir</name>
-        <value>/var/presto/data</value>
+        <value>/usr/hdp/current/presto/data</value>
         <description>
             The location (filesystem path) of the data directory. Presto will store logs and other data here.
         </description>
@@ -50,7 +50,7 @@
 
     <property>
         <name>plugin.config-dir</name>
-        <value>/etc/presto/catalog</value>
+        <value>/usr/hdp/current/presto/etc/catalog</value>
         <description>
             Configuration directory for plugins. This is where you should place
             connector property files.

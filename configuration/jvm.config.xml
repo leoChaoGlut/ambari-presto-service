@@ -18,15 +18,14 @@
 <configuration>
     <property>
         <name>jvm.config</name>
-        <value>
-            -server
-            -Xmx16G
-            -XX:+UseG1GC
-            -XX:G1HeapRegionSize=32M
-            -XX:+UseGCOverheadLimit
-            -XX:+ExplicitGCInvokesConcurrent
-            -XX:+HeapDumpOnOutOfMemoryError
-            -XX:+ExitOnOutOfMemoryError
+        <value>-server
+-Xmx16G
+-XX:+UseG1GC
+-XX:G1HeapRegionSize=32M
+-XX:+UseGCOverheadLimit
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
         </value>
         <description>
             A list of command line options used for launching the Java Virtual
