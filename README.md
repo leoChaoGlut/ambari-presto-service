@@ -15,3 +15,5 @@ Ambari 集成 presto
 # Improvement
 - 使用 tar 包, linux 下通用安装
 - 新增 coordinator quicklinks
+# Usage
+ See Ambari Official Tutorial : https://cwiki.apache.org/confluence/display/AMBARI/Overview
