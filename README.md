@@ -12,3 +12,6 @@ Ambari 集成 presto
     - presto_client.py : 测试是否安装成功
     - presto_coordinator.py coordinator ambari 管理逻辑
     - presto_worker.py : worker ambari 管理逻辑
+# Improvement
+- 使用 tar 包, linux 下通用安装
+- 新增 coordinator quicklinks
