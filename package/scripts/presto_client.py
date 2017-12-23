@@ -15,36 +15,37 @@
 """
 Simple client to communicate with a Presto server.
 """
-from httplib import HTTPConnection, HTTPException
-import logging
 import json
+import logging
 import socket
 import sys
 import time
 
+from httplib import HTTPConnection, HTTPException
 from urllib2 import HTTPError, urlopen, URLError
-
 
 URL_TIMEOUT_MS = 5000
 NUM_ROWS = 1000
 DATA_RESP = 'data'
 NEXT_URI_RESP = 'nextUri'
 RETRY_TIMEOUT = 120
-SYSTEM_RUNTIME_NODES = 'select * from system.runtime.nodes'
+SYSTEM_RUNTIME_NODES = 'SELECT * FROM system.runtime.nodes'
 SHOW_CATALOGS = 'show catalogs'
 SLEEP_INTERVAL = 10
 
 logging.basicConfig(stream=sys.stdout)
 _LOGGER = logging.getLogger(__name__)
 
+
 def smoketest_presto(client, all_hosts):
     ensure_nodes_are_up(client, all_hosts)
     ensure_catalogs_are_available(client)
-    client.execute_query('select * from nation', schema='sf1', catalog='tpch')
+    client.execute_query('SELECT * FROM nation', schema='sf1', catalog='tpch')
     rows = client.get_rows()
     if len(rows) != 25:
         raise RuntimeError('Presto server failed to return the correct \
 number of rows from nation table in TPCH connector. Expected 25 but got {0}'.format(len(rows)))
+
 
 def ensure_catalogs_are_available(client):
     rows = []
@@ -97,12 +98,13 @@ def ensure_nodes_are_up(client, all_hosts):
             _LOGGER.debug('Elapsed time {0}'.format(elapsed_time))
             _LOGGER.debug(
                 'Number of hosts returned from Presto {0} do not match number of hosts specified by user {1}'.format(
-                nodes_returned_from_presto, all_hosts))
+                    nodes_returned_from_presto, all_hosts))
             elapsed_time += SLEEP_INTERVAL
     if not are_expected_nodes_up:
         raise RuntimeError(
-                'Number of hosts returned from Presto {0} do not equal the number of hosts specified by user {1}'.format(
+            'Number of hosts returned from Presto {0} do not equal the number of hosts specified by user {1}'.format(
                 nodes_returned_from_presto, all_hosts))
+
 
 # This class was copied more or less verbatim from
 # https://github.com/prestodb/presto-admin/blob/master/prestoadmin/prestoclient.py
@@ -261,6 +263,7 @@ class PrestoClient:
 
     def get_next_uri(self):
         return self.next_uri
+
 
 class InvalidArgumentError(ValueError):
     pass

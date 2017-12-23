@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from common import PRESTO_HOME
 from resource_management.libraries.script.script import Script
 
 # config object that holds the configurations declared in the config xml file
@@ -25,8 +26,8 @@ config_properties = config['configurations']['config.properties']
 connectors_to_add = config['configurations']['connectors.properties']['connectors.to.add']
 connectors_to_delete = config['configurations']['connectors.properties']['connectors.to.delete']
 
-daemon_control_script = '/etc/init.d/presto'
-config_directory = '/etc/presto'
+daemon_control_script = PRESTO_HOME + '/bin/launcher'
+config_directory = PRESTO_HOME + '/etc'
 
 memory_configs = ['query.max-memory-per-node', 'query.max-memory']
 

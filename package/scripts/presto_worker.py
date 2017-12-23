@@ -12,21 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import uuid
 import os.path as path
+import uuid
 
-from resource_management.libraries.script.script import Script
-from resource_management.core.resources.system import Execute
-from resource_management.core.exceptions import ExecutionFailed, ComponentIsNotRunning
-from common import PRESTO_RPM_URL, PRESTO_RPM_NAME, create_connectors, \
+from common import PRESTO_TAR_URL, PRESTO_TAR_NAME, PRESTO_HOME, create_connectors, \
     delete_connectors
+from resource_management.core.exceptions import ExecutionFailed, ComponentIsNotRunning
+from resource_management.core.resources.system import Execute
+from resource_management.libraries.script.script import Script
 
 
 class Worker(Script):
     def install(self, env):
         from params import java_home
-        Execute('wget --no-check-certificate {0} -O /tmp/{1}'.format(PRESTO_RPM_URL, PRESTO_RPM_NAME))
-        Execute('export JAVA8_HOME={0} && alien -d /tmp/{1}'.format(java_home, PRESTO_RPM_NAME))
+        Execute('wget --no-check-certificate {0} -O /tmp/{1}'.format(PRESTO_TAR_URL, PRESTO_TAR_NAME))
+        Execute('export JAVA8_HOME={0} && tar -xf /tmp/{1} -C {2} --strip-components 1'.format(java_home, PRESTO_TAR_NAME, PRESTO_HOME))
+        Execute('mkdir {0}/etc || echo "true"'.format(PRESTO_HOME))
         self.configure(env)
 
     def stop(self, env):
@@ -37,6 +38,7 @@ class Worker(Script):
         from params import daemon_control_script
         self.configure(self)
         Execute('{0} start'.format(daemon_control_script))
+        Execute('echo worker - $?')
 
     def status(self, env):
         from params import daemon_control_script
@@ -47,7 +49,6 @@ class Worker(Script):
                 raise ComponentIsNotRunning("ComponentIsNotRunning")
             else:
                 raise ef
-
 
     def configure(self, env):
         from params import node_properties, jvm_config, config_properties, \
@@ -76,7 +77,8 @@ class Worker(Script):
         delete_connectors(node_properties, connectors_to_delete)
         # This is a separate call because we always want the tpch connector to
         # be available because it is used to smoketest the installation.
-        create_connectors(node_properties, "{'tpch': ['connector.name=tpch']}")
+        create_connectors(node_properties, '{"tpch": ["connector.name=tpch"]}')
+
 
 if __name__ == '__main__':
     Worker().execute()

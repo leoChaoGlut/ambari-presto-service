@@ -12,30 +12,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
 import ast
-import ConfigParser
+import json
+import os
 
+import ConfigParser
 from resource_management.core.resources.system import Execute
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 config = ConfigParser.ConfigParser()
 config.readfp(open(os.path.join(script_dir, 'download.ini')))
 
-PRESTO_RPM_URL = config.get('download', 'presto_rpm_url')
-PRESTO_RPM_NAME = PRESTO_RPM_URL.split('/')[-1]
+PRESTO_HOME = '/usr/hdp/current/presto'
+PRESTO_TAR_URL = config.get('download', 'presto_tar_url')
+PRESTO_TAR_NAME = PRESTO_TAR_URL.split('/')[-1]
 PRESTO_CLI_URL = config.get('download', 'presto_cli_url')
+
+
+# PRESTO_RPM_URL = config.get('download', 'presto_rpm_url')
+# PRESTO_RPM_NAME = PRESTO_RPM_URL.split('/')[-1]
+
 
 def create_connectors(node_properties, connectors_to_add):
     if not connectors_to_add:
         return
     Execute('mkdir -p {0}'.format(node_properties['plugin.config-dir']))
-    connectors_dict = ast.literal_eval(connectors_to_add)
+    connectors_dict = json.loads(str(connectors_to_add))
+    # connectors_dict = ast.literal_eval(connectors_to_add)
     for connector in connectors_dict:
         connector_file = os.path.join(node_properties['plugin.config-dir'], connector + '.properties')
         with open(connector_file, 'w') as f:
             for lineitem in connectors_dict[connector]:
                 f.write('{0}\n'.format(lineitem))
+
 
 def delete_connectors(node_properties, connectors_to_delete):
     if not connectors_to_delete:
