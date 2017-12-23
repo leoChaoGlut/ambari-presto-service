@@ -1,0 +1,24 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "HTTP_ONLY"
+    },
+    "links": [
+      {
+        "name": "coordinator_console",
+        "label": "Presto Coordinator",
+        "component_name": "PRESTO_COORDINATOR",
+        "requires_user_name": "false",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "http-server.http.port",
+          "regex": "^(\\d+)$",
+          "site": "config.properties"
+        }
+      }
+    ]
+  }
+}
+
