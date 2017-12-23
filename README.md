@@ -4,7 +4,7 @@ Ambari 集成 presto
 # Major Project Structure
 - configuration : presto 配置文件
 - package : 
-  - scripts : 给 ambari 用的脚本
+  - scripts :  ambari 管理逻辑脚本
     - common.py : 
     - download.ini : preseto-tar & presto-cli 的下载信息配置
     - params.py :  ambari 参数和 presto 参数
