@@ -24,10 +24,12 @@ from resource_management.libraries.script.script import Script
 
 class Worker(Script):
     def install(self, env):
-        from params import java_home
+        from params import java_home, config_directory
         Execute('wget --no-check-certificate {0} -O /tmp/{1}'.format(PRESTO_TAR_URL, PRESTO_TAR_NAME))
-        Execute('export JAVA8_HOME={0} && tar -xf /tmp/{1} -C {2} --strip-components 1'.format(java_home, PRESTO_TAR_NAME, PRESTO_HOME))
-        Execute('mkdir {0}/etc || echo "true"'.format(PRESTO_HOME))
+        Execute('mkdir -p {0} || echo "whatever"'.format(config_directory))
+        Execute(
+            'export JAVA8_HOME={0} && tar -xf /tmp/{1} -C {2} --strip-components 1'.format(java_home, PRESTO_TAR_NAME,
+                                                                                           PRESTO_HOME))
         self.configure(env)
 
     def stop(self, env):
@@ -38,7 +40,6 @@ class Worker(Script):
         from params import daemon_control_script
         self.configure(self)
         Execute('{0} start'.format(daemon_control_script))
-        Execute('echo worker - $?')
 
     def status(self, env):
         from params import daemon_control_script
@@ -59,7 +60,7 @@ class Worker(Script):
             for key, value in node_properties.iteritems():
                 f.write(key_val_template.format(key, value))
             f.write(key_val_template.format('node.id', str(uuid.uuid4())))
-            f.write(key_val_template.format('node.data-dir', '/var/lib/presto'))
+            f.write(key_val_template.format('node.data-dir', node_properties['node.data-dir']))
 
         with open(path.join(config_directory, 'jvm.config'), 'w') as f:
             f.write(jvm_config['jvm.config'])

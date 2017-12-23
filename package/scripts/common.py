@@ -29,16 +29,11 @@ PRESTO_TAR_NAME = PRESTO_TAR_URL.split('/')[-1]
 PRESTO_CLI_URL = config.get('download', 'presto_cli_url')
 
 
-# PRESTO_RPM_URL = config.get('download', 'presto_rpm_url')
-# PRESTO_RPM_NAME = PRESTO_RPM_URL.split('/')[-1]
-
-
 def create_connectors(node_properties, connectors_to_add):
     if not connectors_to_add:
         return
     Execute('mkdir -p {0}'.format(node_properties['plugin.config-dir']))
     connectors_dict = json.loads(str(connectors_to_add))
-    # connectors_dict = ast.literal_eval(connectors_to_add)
     for connector in connectors_dict:
         connector_file = os.path.join(node_properties['plugin.config-dir'], connector + '.properties')
         with open(connector_file, 'w') as f:
