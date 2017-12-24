@@ -1,6 +1,6 @@
 # Intro
-Ambari 集成 presto
-官方的项目仅支持 rpm 形式的安装,该项目支持 tar 形式安装.
+- Ambari 集成 presto
+- 官方的项目仅支持 rpm 形式的安装,该项目支持 tar 形式安装.
 # Major Project Structure
 - configuration : presto 配置文件
 - package : 
